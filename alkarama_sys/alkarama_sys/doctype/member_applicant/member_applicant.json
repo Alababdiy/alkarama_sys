@@ -179,6 +179,34 @@
    "fieldname": "column_break_amqp",
    "fieldtype": "Column Break"
   }
+    ,
+    {
+     "fieldname": "need_type",
+     "fieldtype": "Select",
+     "label": "نوع الاحتياج",
+     "options": "غذائي\nدوائي/علاجي\nسكني\nتعليمي\nآخر"
+    },
+    {
+     "fieldname": "need_is_recurring",
+     "fieldtype": "Select",
+     "label": "هل الاحتياج متكرر؟",
+     "options": "لا\nنعم\nيومي\nأسبوعي\nشهري\nسنوي"
+    },
+    {
+     "fieldname": "need_amount",
+     "fieldtype": "Currency",
+     "label": "مقدار الاحتياج بالجنيه"
+    },
+    {
+     "fieldname": "need_ideas",
+     "fieldtype": "Small Text",
+     "label": "هل هناك أفكار مقترحة لتغطية الاحتياج المالي؟"
+    },
+    {
+     "fieldname": "open_notes",
+     "fieldtype": "Small Text",
+     "label": "مساحة مفتوحة لإضافة أي تعليق أو رأي أو أمر مهم"
+    }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
