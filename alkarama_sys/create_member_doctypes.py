@@ -48,23 +48,47 @@ family_member = {
 import frappe
 
 def create_family_member_doctype():
-    doc = frappe.get_doc({
-        "doctype": "DocType",
-        "name": "Family Member",
-        "module": "Alkarama Sys",
-        "fields": family_member["fields"]
-    })
-    doc.insert(ignore_if_duplicate=True)
-    frappe.db.commit()
-    return doc
+    doctype_name = "Family Member"
+    try:
+        doc = frappe.get_doc("DocType", doctype_name)
+        existing_fields = {f.fieldname for f in doc.fields}
+        new_fields = [f for f in family_member["fields"] if f["fieldname"] not in existing_fields]
+        if new_fields:
+            for field in new_fields:
+                doc.append("fields", field)
+            doc.save()
+            frappe.db.commit()
+        return doc
+    except frappe.DoesNotExistError:
+        doc = frappe.get_doc({
+            "doctype": "DocType",
+            "name": doctype_name,
+            "module": "Alkarama Sys",
+            "fields": family_member["fields"]
+        })
+        doc.insert(ignore_if_duplicate=True)
+        frappe.db.commit()
+        return doc
 
 def create_member_applicant_doctype():
-    doc = frappe.get_doc({
-        "doctype": "DocType",
-        "name": "Member Applicant",
-        "module": "Alkarama Sys",
-        "fields": member_applicant["fields"]
-    })
-    doc.insert(ignore_if_duplicate=True)
-    frappe.db.commit()
-    return doc
+    doctype_name = "Member Applicant"
+    try:
+        doc = frappe.get_doc("DocType", doctype_name)
+        existing_fields = {f.fieldname for f in doc.fields}
+        new_fields = [f for f in member_applicant["fields"] if f["fieldname"] not in existing_fields]
+        if new_fields:
+            for field in new_fields:
+                doc.append("fields", field)
+            doc.save()
+            frappe.db.commit()
+        return doc
+    except frappe.DoesNotExistError:
+        doc = frappe.get_doc({
+            "doctype": "DocType",
+            "name": doctype_name,
+            "module": "Alkarama Sys",
+            "fields": member_applicant["fields"]
+        })
+        doc.insert(ignore_if_duplicate=True)
+        frappe.db.commit()
+        return doc
