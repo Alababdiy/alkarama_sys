@@ -6,4 +6,8 @@ from frappe.model.document import Document
 
 
 class MemberApplicant(Document):
-	pass
+	def autoname(self):
+		if hasattr(self, 'martyr_name') and self.martyr_name:
+			self.name = f"اسرة الشهيد {self.martyr_name}"
+		else:
+			self.name = "اسرة الشهيد"
