@@ -1,0 +1,198 @@
+<!-- صفحة تقديم طلب عضوية جديدة - RTL, Arabic, Frappe UI, خطوات متتالية مع بعض التحريك البسيط -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تقديم طلب عضوية جديدة</title>
+    <link rel="stylesheet" href="https://unpkg.com/frappe-ui@latest/dist/frappe-ui.min.css">
+    <style>
+        body {
+            font-family: 'Cairo', 'Tajawal', Arial, sans-serif;
+            background: #f8f6f2;
+            margin: 0;
+            padding: 0;
+        }
+        .step {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        .step.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px #0001;
+            padding: 32px 24px;
+        }
+        .step-title {
+            font-size: 1.3em;
+            color: #7c3aed;
+            margin-bottom: 18px;
+            font-weight: bold;
+        }
+        .btn {
+            background: #7c3aed;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 24px;
+            font-size: 1em;
+            cursor: pointer;
+            margin: 12px 0;
+            transition: background 0.2s;
+        }
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .stepper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+        .stepper span {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #eee;
+            color: #7c3aed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 6px;
+            font-weight: bold;
+            transition: background 0.2s, color 0.2s;
+        }
+        .stepper .active {
+            background: #7c3aed;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="stepper" id="stepper">
+            <span class="active">1</span>
+            <span>2</span>
+            <span>3</span>
+            <span>4</span>
+        </div>
+        <form id="memberForm" autocomplete="off">
+            <!-- Step 1: بيانات الشهيد -->
+            <div class="step active" id="step1">
+                <div class="step-title">بيانات الشهيد</div>
+                <label>اسم الشهيد (رباعي):</label>
+                <input type="text" name="martyr_name" required class="frappe-ui-input">
+                <label>تاريخ الاستشهاد:</label>
+                <input type="date" name="martyr_date" required class="frappe-ui-input">
+                <label>مكان الاستشهاد:</label>
+                <input type="text" name="martyr_place" required class="frappe-ui-input">
+                <label>الفرقة أو المتحرك:</label>
+                <input type="text" name="martyr_unit" class="frappe-ui-input">
+                <button type="button" class="btn" onclick="nextStep()">التالي</button>
+            </div>
+            <!-- Step 2: بيانات الأسرة -->
+            <div class="step" id="step2">
+                <div class="step-title">بيانات الأسرة</div>
+                <label>اسم مقدم الطلب:</label>
+                <input type="text" name="applicant_name" required class="frappe-ui-input">
+                <label>رقم الواتساب:</label>
+                <input type="text" name="whatsapp_number" class="frappe-ui-input">
+                <label>رقم المكالمات:</label>
+                <input type="text" name="call_number" class="frappe-ui-input">
+                <label>مكان الإقامة الحالي:</label>
+                <input type="text" name="current_location" class="frappe-ui-input">
+                <label>الولاية:</label>
+                <input type="text" name="state" class="frappe-ui-input">
+                <label>المدينة:</label>
+                <input type="text" name="city" class="frappe-ui-input">
+                <label>المحلية:</label>
+                <input type="text" name="locality" class="frappe-ui-input">
+                <button type="button" class="btn" onclick="nextStep()">التالي</button>
+                <button type="button" class="btn" onclick="prevStep()">السابق</button>
+            </div>
+            <!-- Step 3: تفاصيل الاحتياج -->
+            <div class="step" id="step3">
+                <div class="step-title">تفاصيل الاحتياج</div>
+                <label>نوع الاحتياج:</label>
+                <select name="need_type" class="frappe-ui-input">
+                    <option value="غذائي">غذائي</option>
+                    <option value="دوائي/علاجي">دوائي/علاجي</option>
+                    <option value="سكني">سكني</option>
+                    <option value="تعليمي">تعليمي</option>
+                    <option value="آخر">آخر</option>
+                </select>
+                <label>هل الاحتياج متكرر؟</label>
+                <select name="need_is_recurring" class="frappe-ui-input">
+                    <option value="لا">لا</option>
+                    <option value="نعم">نعم</option>
+                    <option value="يومي">يومي</option>
+                    <option value="أسبوعي">أسبوعي</option>
+                    <option value="شهري">شهري</option>
+                    <option value="سنوي">سنوي</option>
+                </select>
+                <label>مقدار الاحتياج بالجنيه:</label>
+                <input type="number" name="need_amount" class="frappe-ui-input">
+                <label>هل هناك أفكار مقترحة لتغطية الاحتياج المالي؟</label>
+                <textarea name="need_ideas" class="frappe-ui-input"></textarea>
+                <button type="button" class="btn" onclick="nextStep()">التالي</button>
+                <button type="button" class="btn" onclick="prevStep()">السابق</button>
+            </div>
+            <!-- Step 4: ملاحظات إضافية وتأكيد -->
+            <div class="step" id="step4">
+                <div class="step-title">ملاحظات إضافية وتأكيد</div>
+                <label>مساحة مفتوحة لإضافة أي تعليق أو رأي أو أمر مهم:</label>
+                <textarea name="open_notes" class="frappe-ui-input"></textarea>
+                <button type="submit" class="btn">إرسال الطلب</button>
+                <button type="button" class="btn" onclick="prevStep()">السابق</button>
+            </div>
+        </form>
+        <div id="successMsg" style="display:none; color:green; text-align:center; margin-top:20px; font-size:1.2em;">تم إرسال الطلب بنجاح!</div>
+    </div>
+    <script>
+        let currentStep = 1;
+        function showStep(step) {
+            document.querySelectorAll('.step').forEach((el, i) => {
+                el.classList.toggle('active', i === step - 1);
+            });
+            document.querySelectorAll('.stepper span').forEach((el, i) => {
+                el.classList.toggle('active', i === step - 1);
+            });
+            currentStep = step;
+        }
+        function nextStep() {
+            if (currentStep < 4) showStep(currentStep + 1);
+        }
+        function prevStep() {
+            if (currentStep > 1) showStep(currentStep - 1);
+        }
+        document.getElementById('memberForm').onsubmit = async function(e) {
+            e.preventDefault();
+            // هنا يمكنك إرسال البيانات إلى Frappe backend باستخدام fetch أو frappe.call
+            // مثال بسيط:
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((v, k) => data[k] = v);
+            // استبدل هذا بعنوان endpoint المناسب في تطبيقك
+            try {
+                await fetch('/api/resource/Member Applicant', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ data })
+                });
+                document.getElementById('memberForm').style.display = 'none';
+                document.getElementById('successMsg').style.display = 'block';
+            } catch (err) {
+                alert('حدث خطأ أثناء إرسال الطلب');
+            }
+        };
+    </script>
+</body>
+</html>
