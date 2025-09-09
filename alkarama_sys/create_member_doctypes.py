@@ -51,7 +51,7 @@ def create_family_member_doctype():
     doc = frappe.get_doc({
         "doctype": "DocType",
         "name": "Family Member",
-        "module": "Alkarama Frappe",
+        "module": "Alkarama Sys",
         "fields": family_member["fields"]
     })
     doc.insert(ignore_if_duplicate=True)
@@ -62,7 +62,7 @@ def create_member_applicant_doctype():
     doc = frappe.get_doc({
         "doctype": "DocType",
         "name": "Member Applicant",
-        "module": "Alkarama Frappe",
+        "module": "Alkarama Sys",
         "fields": member_applicant["fields"]
     })
     doc.insert(ignore_if_duplicate=True)
